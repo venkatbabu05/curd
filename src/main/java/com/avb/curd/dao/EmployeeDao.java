@@ -13,23 +13,11 @@ public class EmployeeDao {
     private com.avb.curd.repo.EmployeeRepo employeeRepo;
 
     public Employees saveEmployeeData(Employees employee) {
-        Employees empData = null;
-        try {
-            empData = employeeRepo.save(employee);
-        } catch (Exception exp) {
-            System.out.println("Exception while save the emp data" + exp);
-        }
-        return empData;
+        return employeeRepo.save(employee);
     }
 
     public Optional<Employees> getEmployeeById(int empId) {
-        Optional<Employees> emp = null;
-        try {
-            emp = employeeRepo.findById(empId);
-        } catch (Exception exp) {
-            System.out.println("Exception while fetch the emp data" + empId);
-        }
-        return emp;
+        return employeeRepo.findById(empId);
     }
 }
 
