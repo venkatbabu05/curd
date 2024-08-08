@@ -1,11 +1,14 @@
 package com.avb.curd.controller;
 
-import com.avb.curd.entity.EmployeeDetails;
+import com.avb.curd.entity.Employees;
+import com.avb.curd.model.Employee;
+import com.avb.curd.model.Response;
 import com.avb.curd.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Optional;
 
 @RestController
@@ -15,19 +18,28 @@ public class Controller {
     private Service service;
 
     @PostMapping("/createEmployee")
-    public ResponseEntity<String> createEmployeeData(@RequestBody EmployeeDetails employee) {
-        boolean status = service.processEmployeeDate(employee);
-        return new ResponseEntity<>(status ? "Data saved successfully" : "Unable to save the data", HttpStatus.OK);
+    public ResponseEntity<Response> createEmployeeData(@RequestBody Employee employee) {
+        Employees emp = service.processEmployeeDate(employee);
+        return getResponse(emp, "data saved successfully");
     }
 
     @GetMapping("/getEmployee/{empId}")
-    public ResponseEntity<EmployeeDetails> getEmployee(@PathVariable int empId) {
-        System.out.println("test");
-        EmployeeDetails employeeDetails = null;
-        Optional<EmployeeDetails> emp = service.getEmployeeById(empId);
+    public ResponseEntity<Response> getEmployee(@PathVariable int empId) {
+        String message = "No data Found";
+        Employees empDate = null;
+        Optional<Employees> emp = service.getEmployeeById(empId);
         if (emp.isPresent()) {
-            employeeDetails = emp.get();
+            empDate = emp.get();
+            message = "Employee data found";
         }
-        return new ResponseEntity<>(employeeDetails, HttpStatus.OK);
+        return getResponse(empDate, message);
+    }
+
+    private ResponseEntity<Response> getResponse(Employees empDate, String message) {
+        Response response = new Response();
+        response.setMessage(message);
+        response.setData(empDate);
+        response.setStatus(String.valueOf(HttpStatus.OK));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -1,25 +1,32 @@
-package com.avb.curd.model;
+package com.avb.curd.entity;
 
-public class Employee {
+import jakarta.persistence.*;
 
-    private int empId;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+@Entity
+public class Employees {
+
+    @Id
+    private int employeeId;
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
-    private String hireDate;
+    private LocalDate hireDate;
     private String jobTitle;
-    private String salary;
+    private BigDecimal salary;
     private String department;
     private String gender;
     private String city;
 
-    public int getEmpId() {
-        return empId;
+    public int getEmployeeId() {
+        return employeeId;
     }
 
-    public void setEmpId(int empId) {
-        this.empId = empId;
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getFirstName() {
@@ -54,11 +61,11 @@ public class Employee {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getHireDate() {
+    public LocalDate getHireDate() {
         return hireDate;
     }
 
-    public void setHireDate(String hireDate) {
+    public void setHireDate(LocalDate hireDate) {
         this.hireDate = hireDate;
     }
 
@@ -70,11 +77,11 @@ public class Employee {
         this.jobTitle = jobTitle;
     }
 
-    public String getSalary() {
+    public BigDecimal getSalary() {
         return salary;
     }
 
-    public void setSalary(String salary) {
+    public void setSalary(BigDecimal salary) {
         this.salary = salary;
     }
 
