@@ -27,4 +27,19 @@ public class TransformRequest {
         return empEntity;
     }
 
+    public Employees parseEmployeeEntity(Employees empEntity, Employee emp){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        empEntity.setFirstName(emp.getFirstName());
+        empEntity.setLastName(emp.getLastName());
+        empEntity.setEmail(emp.getEmail());
+        empEntity.setPhoneNumber(emp.getPhoneNumber());
+        empEntity.setHireDate(LocalDate.parse(emp.getHireDate(), formatter));
+        empEntity.setJobTitle(emp.getJobTitle());
+        empEntity.setSalary(new BigDecimal(emp.getSalary()));
+        empEntity.setDepartment(emp.getDepartment());
+        empEntity.setGender(emp.getGender());
+        empEntity.setCity(emp.getCity());
+        return empEntity;
+    }
+
 }

@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -40,8 +42,22 @@ public class Controller {
         return getResponse(empDate, message);
     }
 
+    @PutMapping("/updateEmployee/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<Response> updateEmployee(@PathVariable int id, @RequestBody Employee emp) {
+        Employees empData = service.updateEmployee(id, emp);
+        return getResponse(empData, empData != null ? "Data saved successfully" : "Employee data Not found for given id :" + id);
+    }
+
+    @PatchMapping("/updateEmployeeByField/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<Response> updateEmployeeByField(@PathVariable int id, @RequestBody Map<String, Object> emp) {
+        Employees empData = service.updateEmployeeByField(id, emp);
+        return getResponse(empData, empData != null ? "Data saved successfully" : "Employee data Not found for given id :" + id);
+    }
+
     @PostMapping("/newUser")
-    public String addNewUser(@RequestBody User userInfo){
+    public String addNewUser(@RequestBody User userInfo) {
         return service.addUser(userInfo);
     }
 
