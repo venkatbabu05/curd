@@ -8,6 +8,7 @@ import com.avb.curd.transform.TransformRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.ReflectionUtils;
 import java.lang.reflect.Field;
+import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ public class Service {
     }
 
     public Employees processEmployeeDate(Employee emp) {
-        Employees entity = transformRequest.parseEmployee(emp);
+        Employees entity = transformRequest.parseCreateEmployee(emp);
         return employeeDao.saveEmployeeData(entity);
     }
 
@@ -36,7 +37,7 @@ public class Service {
     public Employees updateEmployee(int empId, Employee emp) {
         Optional<Employees> existingData = employeeDao.getEmployeeById(empId);
         if (existingData.isPresent()) {
-            Employees newData = transformRequest.parseEmployeeEntity(existingData.get(), emp);
+            Employees newData = transformRequest.parseUpdateEmployee(existingData.get(), emp);
             return employeeDao.saveEmployeeData(newData);
         }
         return null;
@@ -50,6 +51,7 @@ public class Service {
                 field.setAccessible(true);
                 ReflectionUtils.setField(field, existingData.get(), value);
             });
+            existingData.get().setUpdateDate(new Date());
             return employeeDao.saveEmployeeData(existingData.get());
         }
         return null;

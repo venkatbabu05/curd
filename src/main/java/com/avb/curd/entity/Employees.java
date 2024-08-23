@@ -4,11 +4,16 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
+
+import static jakarta.persistence.CascadeType.ALL;
 
 @Entity
 public class Employees {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int employeeId;
     private String firstName;
     private String lastName;
@@ -20,6 +25,14 @@ public class Employees {
     private String department;
     private String gender;
     private String city;
+
+    private Date createDate;
+
+    private Date updateDate;
+
+    @OneToMany(targetEntity = Address.class, cascade = ALL)
+    @JoinColumn(name = "empId", referencedColumnName = "employeeId")
+    private List<Address> address;
 
     public int getEmployeeId() {
         return employeeId;
@@ -107,5 +120,29 @@ public class Employees {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public List<Address> getAddress() {
+        return address;
+    }
+
+    public void setAddress(List<Address> address) {
+        this.address = address;
     }
 }

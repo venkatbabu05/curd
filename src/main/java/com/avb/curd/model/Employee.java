@@ -1,5 +1,9 @@
 package com.avb.curd.model;
 
+import com.avb.curd.model.Address;
+
+import java.util.List;
+
 public class Employee {
 
     private int empId;
@@ -13,6 +17,8 @@ public class Employee {
     private String department;
     private String gender;
     private String city;
+
+    private List<Address> address;
 
     public int getEmpId() {
         return empId;
@@ -100,5 +106,13 @@ public class Employee {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public List<Address> getAddress() {
+        return address;
+    }
+
+    public void setAddress(List<Address> address) {
+        this.address = address;
     }
 }
