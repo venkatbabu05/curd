@@ -2,20 +2,19 @@ package com.avb.curd.dao;
 
 import com.avb.curd.entity.Employees;
 import com.avb.curd.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.avb.curd.repo.EmployeeRepo;
+import com.avb.curd.repo.UserRepo;
 import org.springframework.stereotype.Repository;
-
 import java.util.Optional;
 
 @Repository
 public class EmployeeDao {
-
-
-    @Autowired
     private com.avb.curd.repo.EmployeeRepo employeeRepo;
-
-    @Autowired
     private com.avb.curd.repo.UserRepo userRepo;
+    public EmployeeDao(EmployeeRepo employeeRepo, UserRepo userRepo) {
+        this.employeeRepo = employeeRepo;
+        this.userRepo = userRepo;
+    }
 
     public Employees saveEmployeeData(Employees employee) {
         return employeeRepo.save(employee);
@@ -27,6 +26,10 @@ public class EmployeeDao {
 
     public void saveUser(User user) {
         userRepo.save(user);
+    }
+
+    public void deleteEmployee(int empId){
+        employeeRepo.deleteById(empId);
     }
 }
 

@@ -5,22 +5,20 @@ import com.avb.curd.entity.User;
 import com.avb.curd.model.Employee;
 import com.avb.curd.model.Response;
 import com.avb.curd.service.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/employee")
 public class Controller {
-
-    @Autowired
     private Service service;
+    public Controller(Service service) {
+        this.service = service;
+    }
 
     @PostMapping("/createEmployee")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -56,9 +54,17 @@ public class Controller {
         return getResponse(empData, empData != null ? "Data saved successfully" : "Employee data Not found for given id :" + id);
     }
 
+    @DeleteMapping("/deleteEmployee/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<String> deleteEmployee(@PathVariable int id) {
+        String result = service.deleteEmployee(id);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     @PostMapping("/newUser")
-    public String addNewUser(@RequestBody User userInfo) {
-        return service.addUser(userInfo);
+    public ResponseEntity<String> addNewUser(@RequestBody User userInfo) {
+        String result = service.addUser(userInfo);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     private ResponseEntity<Response> getResponse(Employees empDate, String message) {

@@ -1,13 +1,12 @@
 package com.avb.curd.service;
 
+import com.avb.curd.dao.EmployeeDao;
 import com.avb.curd.entity.Employees;
 import com.avb.curd.entity.User;
 import com.avb.curd.model.Employee;
 import com.avb.curd.transform.TransformRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.ReflectionUtils;
-
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Optional;
@@ -15,14 +14,15 @@ import java.util.Optional;
 @org.springframework.stereotype.Service
 public class Service {
 
-    @Autowired
-    TransformRequest transformRequest;
-
-    @Autowired
+    private TransformRequest transformRequest;
     private com.avb.curd.dao.EmployeeDao employeeDao;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    public Service(TransformRequest transformRequest, EmployeeDao employeeDao, PasswordEncoder passwordEncoder) {
+        this.transformRequest = transformRequest;
+        this.employeeDao = employeeDao;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public Employees processEmployeeDate(Employee emp) {
         Employees entity = transformRequest.parseEmployee(emp);
@@ -53,6 +53,11 @@ public class Service {
             return employeeDao.saveEmployeeData(existingData.get());
         }
         return null;
+    }
+
+    public String deleteEmployee(int empId){
+        employeeDao.deleteEmployee(empId);
+        return "Data deleted successfully";
     }
 
     public String addUser(User userInfo) {

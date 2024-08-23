@@ -66,4 +66,17 @@ Request :
 
 GET : http://localhost:8180/employee/getEmployee/4
 
+4.) Update employee by id
+
+PATCH : http://localhost:8180/employee/updateEmployeeByField/1
+
+Request :
+
+{
+    "department" : "Technology"
+}
+
+5.) Delete By Id
+
+Delete : http://localhost:8180/employee/deleteEmployee/13
 
