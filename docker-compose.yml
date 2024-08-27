@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0.38
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE : avb
+    ports:
+      - "9090:3306"
